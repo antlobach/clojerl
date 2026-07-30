@@ -1,11 +1,16 @@
-FROM erlang:22.2.3
+FROM erlang:28
 
-RUN git clone https://github.com/clojerl/clojerl && \
-        cd clojerl                               && \
-        make                                     && \
-        apt-get update                           && \
-        apt-get install rlwrap                   && \
-        apt-get clean                            && \
-        apt-get autoclean
+LABEL org.opencontainers.image.title="Clojerl"
+LABEL org.opencontainers.image.description="Clojure for the Erlang VM"
+LABEL org.opencontainers.image.authors="Juan Facorro and Clojerl contributors"
+LABEL org.opencontainers.image.licenses="EPL-1.0"
 
-CMD sleep 0.1; /clojerl/bin/clje
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends rlwrap \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /clojerl
+COPY . .
+RUN make
+
+ENTRYPOINT ["/clojerl/bin/clje"]

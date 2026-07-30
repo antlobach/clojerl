@@ -1,113 +1,106 @@
 # clojerl
 
-![Build](https://github.com/clojerl/clojerl/workflows/Build/badge.svg)
-[![Hex.pm](https://img.shields.io/hexpm/v/clojerl.svg)](https://hex.pm/packages/clojerl)
+[![Build](https://github.com/antlobach/clojerl/actions/workflows/build.yml/badge.svg)](https://github.com/antlobach/clojerl/actions/workflows/build.yml)
+[![Fork release](https://img.shields.io/github/v/release/antlobach/clojerl)](https://github.com/antlobach/clojerl/releases)
+[![Upstream Hex package](https://img.shields.io/hexpm/v/clojerl.svg)](https://hex.pm/packages/clojerl)
 
-Clojure implemented on the Erlang VM.
+Clojure implemented on the Erlang VM. This community-maintained fork keeps
+Clojerl working on current Erlang/OTP releases.
+
+Fork releases are published on [GitHub](https://github.com/antlobach/clojerl/releases)
+and as `ghcr.io/antlobach/clojerl` container images. The Hex badge reports the
+original project's `clojerl` package.
+
+## Origins and maintenance
+
+[Juan Facorro][original-author] created Clojerl, with substantial work from the
+[original Clojerl contributors][contributors]. This fork preserves their
+history, license, and authorship while providing ongoing compatibility
+maintenance. The original project remains available at
+[`clojerl/clojerl`][upstream].
 
 ## Building
 
-Building `clojerl` requires *Erlang/OTP 21+* and [*rebar3*][rebar3].
+This fork is tested on **Erlang/OTP 24 through 28** and requires
+[*rebar3*][rebar3].
 
-    git clone https://github.com/clojerl/clojerl
-    cd clojerl
-    make
+```shell
+git clone https://github.com/antlobach/clojerl
+cd clojerl
+make
+```
 
 On Windows:
 
-    git clone https://github.com/clojerl/clojerl
-    cd clojerl
-    rebar3 clojerl compile
+```shell
+git clone https://github.com/antlobach/clojerl
+cd clojerl
+rebar3 clojerl compile
+```
 
 ## Getting Started
 
-### Documentation and Resources
+### Documentation and examples
 
-There is more information regarding Clojerl in [clojerl.io][clojerl], where you
-can find what [features][features] does Clojerl include and [how it differs from
-Clojure][diff-with-clojure].
+Start with this README and the examples in [`scripts/examples`][examples].
+The [original Clojerl documentation][upstream-docs] remains useful for project
+history and language design, but may not describe current fork behavior.
 
-### Online REPL
+### Container REPL
 
-To try it out and get a sense of what you can do, you can visit
-[Try Clojerl][try-clojerl].
+Release images are published from this fork to GitHub Container Registry:
 
-## Docker REPL
-
-To quickly try out `clojerl` via docker you can make use of the docker
-image like so:
-
-```
-docker pull clojerl/clojerl
-docker run -it clojerl/clojerl
+```shell
+docker pull ghcr.io/antlobach/clojerl:0.9.1
+docker run --rm -it ghcr.io/antlobach/clojerl:0.9.1
 ```
 
-Then you should be able to see the prompt:
+To build the image locally:
+
+```shell
+docker build -f scripts/Dockerfile -t antlobach/clojerl:0.9.1 .
+docker run --rm -it antlobach/clojerl:0.9.1
+```
+
+The REPL starts with:
 
 ```clojure
-Clojure 0.6.0
+Clojure 0.9.1
 clje.user=>
 ```
 
-
 ### Local REPL
 
-Running `make repl` (on Windows first run `rebar3 clojerl compile` and
-then `bin/clje.bat`) will start the REPL and show its prompt:
+Run `make repl`. On Windows, first run `rebar3 clojerl compile`, then
+`bin/clje.bat`.
 
-    Clojure 0.6.0
-    clje.user=>
+```text
+Clojure 0.9.1
+clje.user=>
+```
 
-From the REPL it's possible to start evaluating Clojure expressions:
+From the REPL, evaluate Clojerl expressions:
 
-    clje.user=> (map inc (range 10))
-    (1 2 3 4 5 6 7 8 9 10)
-    clje.user=> (doc map)
-    -------------------------
-    clojure.core/map
-    ([f] [f coll] [f c1 c2] [f c1 c2 c3] [f c1 c2 c3 & colls])
-      Returns a lazy sequence consisting of the result of applying f to
-      the set of first items of each coll, followed by applying f to the
-      set of second items in each coll, until any one of the colls is
-      exhausted.  Any remaining items in other colls are ignored. Function
-      f should accept number-of-colls arguments. Returns a transducer when
-      no collection is provided.
-    nil
-    clje.user=> (doc inc)
-    -------------------------
-    clojure.core/inc
-    ([x])
-      Returns a number one greater than num.
-    nil
-    clje.user=>
+```clojure
+clje.user=> (map inc (range 10))
+(1 2 3 4 5 6 7 8 9 10)
+```
 
-### Code Examples
+### Code examples
 
-There are some very basic examples in the [scripts/examples][examples]
-directory. These are meant to be references on how special forms in
-Clojure on the BEAM are used and how they sometimes differ from Clojure
-JVM.
+The [`scripts/examples`][examples] directory demonstrates Clojerl special forms
+and Erlang VM interop.
 
-### Web Application Example
+### Web application example
 
-For a very basic example of a web project please check the
-[example-web-app][example-web-app] repository.
+The original project maintains a basic
+[Cowboy web application example][example-web-app].
 
-### Building Your Own App
+### Building your own application
 
-The build tool for Clojerl is the [`rebar3_clojerl`][rebar3_clojerl]
-plugin. [`rebar3`][rebar3] is the official build tool in the Erlang
-community.
-
-The plugin provides helpful commands to:
-
-- Build a basic directory scaffolding for a new project
-- Compile
-- Run tests
-- Start a REPL
-
-For more information on how to use this plugin please check the
-documentation in [`rebar3_clojerl`][rebar3_clojerl].
+[`rebar3_clojerl`][rebar3_clojerl] integrates Clojerl with Erlang's `rebar3`
+build tool. It can create a project, compile code, run tests, and start a REPL.
+Refer to the plugin repository for its command documentation.
 
 ## Rationale
 
@@ -135,7 +128,9 @@ happier place.
 - Provide all Erlang abstractions and toolset.
 - Include a default OTP library in Clojerl.
 
-### Personal Goal
+### Original author's personal goal
+
+The following goal comes from Juan Facorro's original project README:
 
 Learn more about Erlang (and its VM), Clojure and language
 implementation.
@@ -203,29 +198,22 @@ Yes, but they will need to be ported, just like for ClojureScript. In
 fact, most of Clojure's core namespaces were ported from the original
 .clj files in the Clojure JVM repository.
 
-## Discussion
+## Support and project history
 
-Join the conversation in the [Clojerl][clojerl-mailing-list] mailing
-list or in the [`#clojerl` Slack channel][clojerl-slack]!
+Report fork-specific bugs and compatibility problems in the
+[fork issue tracker][fork-issues].
 
-You can also find news and updates through [@clojerl][clojerl-twitter].
-Or if you have any questions you can find me [@jfacorro][jfacorro-twitter] or lurking
-on [Clojure](https://groups.google.com/forum/?hl=en#!forum/clojure)'s
-and
-[Erlang](https://groups.google.com/forum/?hl=en#!forum/erlang-programming)'s
-mailing lists.
-
-Any feedback, comment and/or suggestion is welcome!
+Credit for Clojerl's language design and original implementation belongs to
+[Juan Facorro][original-author] and the
+[original contributors][contributors]. Historical discussions, design context,
+and prior releases remain available in the [upstream repository][upstream].
 
 [rebar3]: https://github.com/erlang/rebar3
-[try-clojerl]: http://try.clojerl.io/
 [examples]: scripts/examples
 [example-web-app]: https://github.com/clojerl/example-web-app/
-[rebar3_clojerl]:https://github.com/clojerl/rebar3_clojerl
-[clojerl]: http://clojerl.io/
-[features]: http://clojerl.io/available-features
-[diff-with-clojure]: http://clojerl.io/differences-with-clojure
-[clojerl-mailing-list]: https://groups.google.com/forum/#!forum/clojerl
-[clojerl-slack]: https://erlanger.slack.com
-[clojerl-twitter]: https://twitter.com/clojerl
-[jfacorro-twitter]: https://twitter.com/jfacorro
+[rebar3_clojerl]: https://github.com/clojerl/rebar3_clojerl
+[upstream]: https://github.com/clojerl/clojerl
+[upstream-docs]: https://www.clojerl.io/
+[original-author]: https://github.com/jfacorro
+[contributors]: https://github.com/clojerl/clojerl/graphs/contributors
+[fork-issues]: https://github.com/antlobach/clojerl/issues
