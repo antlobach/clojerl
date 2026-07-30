@@ -18,16 +18,16 @@ jobs:
       image: erlang:${{ matrix.otp-version }}
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - name: Cache Hex packages
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ~/.cache/rebar3/hex/hexpm/packages
         key: ${{ runner.os }}-hex-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.lock')) }}
         restore-keys: |
           ${{ runner.os }}-hex-
     - name: Cache Dialyzer PLTs
-      uses: actions/cache@v4
+      uses: actions/cache@v6
       with:
         path: ~/.cache/rebar3/rebar3_*_plt
         key: ${{ runner.os }}-dialyzer-${{ hashFiles(format('{0}{1}', github.workspace, '/rebar.config')) }}
@@ -40,7 +40,7 @@ jobs:
     - name: Generate Documentation
       run: make docs
     - name: Publish Documentation
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: docs
         path: doc
@@ -49,7 +49,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v7
     - name: Install Erlang
       run: choco install -y erlang --version 22.3
     - name: Install rebar3
@@ -61,7 +61,7 @@ jobs:
     - name: Generate Documentation
       run: bash -lc "make docs"
     - name: Publish Documentation
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v7
       with:
         name: docs
         path: doc
