@@ -38,8 +38,10 @@ jobs:
     - name: Compile, Test and Validate
       run: make ci
     - name: Generate Documentation
+      if: matrix.otp-version == 28
       run: make docs
     - name: Publish Documentation
+      if: matrix.otp-version == 28
       uses: actions/upload-artifact@v7
       with:
         name: docs
@@ -58,11 +60,3 @@ jobs:
       run: bash -lc "make"
     - name: Compile, Test and Validate
       run: bash -lc "make ci"
-    - name: Generate Documentation
-      run: bash -lc "make docs"
-    - name: Publish Documentation
-      uses: actions/upload-artifact@v7
-      with:
-        name: docs
-        path: doc
-        overwrite: true
