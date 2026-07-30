@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.9.1](https://github.com/antlobach/clojerl/tree/0.9.1) (2026-07-30)
+
+[Full Changelog](https://github.com/antlobach/clojerl/compare/0.9.0...0.9.1)
+
+**Compatibility:**
+
+- Add Erlang/OTP 28 to CI while retaining OTP 24 through 27.
+- Keep regex literals portable across OTP 27 and 28.
+- Preserve empty-string split behavior after the OTP 28 `re:split/3` change.
+
+**Maintenance:**
+
+- Upgrade GitHub Actions cache steps to `actions/cache@v4`.
+- Publish multi-architecture container images through GitHub Container Registry.
+- Refresh fork documentation, ownership context, and release metadata.
+
+**Credits:**
+
+- Clojerl was created by Juan Facorro and developed by the original Clojerl
+  contributors. This fork release preserves their work and authorship.
+
 ## [0.9.0](https://github.com/clojerl/clojerl/tree/0.9.0)
 
 [Full Changelog](https://github.com/clojerl/clojerl/compare/0.8.0...0.9.0)
